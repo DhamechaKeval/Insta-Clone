@@ -30,3 +30,10 @@
     user : UserId , ref: User
     createdAt
 }
+
+// Follow Schema (edge collection)
+{
+    follower : ref : User 
+    followee : ref : User  
+    createdAt
+}

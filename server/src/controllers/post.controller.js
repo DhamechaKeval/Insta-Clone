@@ -1,6 +1,5 @@
 const ImageKit = require("@imagekit/nodejs");
 const { toFile } = require("@imagekit/nodejs");
-const jwt = require("jsonwebtoken");
 const Post = require("../models/post.model");
 
 const Imagekit = new ImageKit({
@@ -15,29 +14,11 @@ const createPostController = async (req, res) => {
     fileName: req.file.originalname,
     folder: "Insta-clone-posts",
   });
-
-  const token = req.cookies.token;
-
-  if (!token) {
-    return res.status(401).json({
-      message: "Unauthorised access",
-    });
-  }
-
-  let decoded = null;
-
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    return res.status(401).json({
-      message: "Invalid Token",
-    });
-  }
-
+  
   const post = await Post.create({
     caption,
     imgUrl: file.url,
-    user: decoded.id,
+    user: req.user.id,
   });
 
   res.status(201).json({
@@ -47,25 +28,7 @@ const createPostController = async (req, res) => {
 };
 
 const getAllPostController = async (req, res) => {
-  const token = req.cookies.token;
-
-  if (!token) {
-    return res.status(401).json({
-      message: "Unathorised access",
-    });
-  }
-
-  let decoded = null;
-
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    return res.status(401).json({
-      message: "Invalid Token",
-    });
-  }
-
-  const userId = decoded.id;
+  const userId = req.user.id;
 
   const posts = await Post.find({ user: userId });
 
@@ -76,25 +39,7 @@ const getAllPostController = async (req, res) => {
 };
 
 const getPostDetailsController = async (req, res) => {
-  const token = req.cookies.token;
-
-  if (!token) {
-    return res.status(401).json({
-      message: "Unathorised access ",
-    });
-  }
-
-  let decoded = null;
-
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    return res.status(401).json({
-      message: "Invalid token",
-    });
-  }
-
-  const userId = decoded.id;
+  const userId = req.user.id;
   const postId = req.params.postId;
 
   const post = await Post.findById(postId);
