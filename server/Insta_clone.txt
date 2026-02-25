@@ -22,3 +22,11 @@
     bio : String
     profileImage : String , default 
 }
+
+// Post Schema
+{
+    caption : String , default:""
+    imgUrl : String
+    user : UserId , ref: User
+    createdAt
+}
