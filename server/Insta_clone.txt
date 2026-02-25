@@ -33,7 +33,14 @@
 
 // Follow Schema (edge collection)
 {
-    follower : ref : User 
-    followee : ref : User  
+    follower : String
+    followee : String
+    createdAt
+}
+
+// Like Schema (edge collection)
+{
+    postId : ref : "posts"
+    user : String
     createdAt
 }
