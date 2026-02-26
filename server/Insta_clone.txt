@@ -44,3 +44,21 @@
     user : String
     createdAt
 }
+
+=> Rest APIs 
+    => POST /api/auth/register    // for user register
+    => POST /api/auth/login    // for user login
+
+    => POST /api/posts/    // for Create Post
+    => GET /api/posts/    //for fetch all posts
+    => GET /api/posts/details/:postId      // for get post details by postId
+    => POST /api/posts/like/:postId    // for like post
+    => POST /api/posts/dislike/:postId     // for dislike post
+    
+    => POST /api/user/follow/:username     // for follow user
+    => POST /api/user/follow/accept/:username      // for accept follow request
+    => POST /api/user/follow/reject/:username      // for reject follow request
+    => GET /api/user/follow/pendinglist    // for fetch pending request list
+    => GET /api/user/followinglist     // for fetch following list
+    => GET /api/user/followerslist     // for fetch follower list
+    => POST /api/user/unfollow/:username   // for unfollow user

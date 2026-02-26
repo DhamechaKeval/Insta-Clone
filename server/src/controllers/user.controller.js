@@ -26,7 +26,7 @@ const userFollowController = async (req, res) => {
 
   if (isAlradyFollow) {
     return res.status(200).json({
-      message: `You are Alrady following ${followeeUsername}.`,
+      message: `You are Alrady send follow request to ${followeeUsername}.`,
       follow: isAlradyFollow,
     });
   }
@@ -37,7 +37,7 @@ const userFollowController = async (req, res) => {
   });
 
   res.status(201).json({
-    message: `Now you following ${followeeUsername}`,
+    message: `Follow request send succesfully to ${followeeUsername}.`,
     follow,
   });
 };
@@ -55,6 +55,7 @@ const userUnfollowController = async (req, res) => {
   const isUserFollowing = await Follow.findOne({
     follower: followerUsername,
     followee: followeeUsername,
+    status: "accept",
   });
 
   if (!isUserFollowing) {
@@ -70,4 +71,155 @@ const userUnfollowController = async (req, res) => {
   });
 };
 
-module.exports = { userFollowController, userUnfollowController };
+const followAcceptController = async (req, res) => {
+  const followerUsername = req.params.username;
+  const myUsername = req.user.username;
+
+  // find document from follow modle
+  const follow = await Follow.findOne({
+    follower: followerUsername,
+    followee: myUsername,
+  });
+
+  // koi pending request nahi mili
+  if (!follow) {
+    return res.status(404).json({
+      message: `No follow request found.`,
+    });
+  }
+
+  // alrady request reject ho gai hai
+  if (follow.status === "reject") {
+    return res.status(409).json({
+      message: `You have alrady reject the follow request.`,
+      follow,
+    });
+  }
+
+  // alrady request accept ho gai hai
+  if (follow.status === "accept") {
+    return res.status(409).json({
+      message: `You have alrady accept the follow request.`,
+      follow,
+    });
+  }
+
+  // pending -> accept
+  follow.status = "accept";
+  await follow.save();
+
+  res.status(200).json({
+    message: `Follow request Accepted. ${followerUsername} follow you.`,
+    follow,
+  });
+};
+
+const followRejectController = async (req, res) => {
+  const followerUsername = req.params.username;
+  const myUsername = req.user.username;
+
+  // find document from follow modle
+  const follow = await Follow.findOne({
+    follower: followerUsername,
+    followee: myUsername,
+  });
+
+  // koi pending request nahi mili
+  if (!follow) {
+    return res.status(404).json({
+      message: `No follow request found.`,
+    });
+  }
+
+  // alrady request reject ho gai hai
+  if (follow.status === "reject") {
+    return res.status(409).json({
+      message: `You have alrady rejected the follow request.`,
+      follow,
+    });
+  }
+
+  // alrady request accept ho gai hai
+  if (follow.status === "accept") {
+    return res.status(409).json({
+      message: `You have alrady accept the follow request.`,
+      follow,
+    });
+  }
+
+  // pending -> accept
+  follow.status = "reject";
+  await follow.save();
+
+  res.status(200).json({
+    message: `Follow request Rejected of${followerUsername}.`,
+    follow,
+  });
+};
+
+const followPendingListController = async (req, res) => {
+  myUsername = req.user.username;
+
+  const pending = await Follow.find({
+    followee: myUsername,
+    status: "pending",
+  });
+
+  if (pending.length === 0) {
+    return res.status(200).json({
+      message: `Currently you have not any pending Follow request`,
+    });
+  }
+
+  res.status(200).json({
+    message: `Pending follow request list`,
+    request: pending.map((item) => ({
+      follower: item.follower,
+      status: item.status,
+    })),
+  });
+};
+
+// whom i follow
+const followingListController = async (req, res) => {
+  const myUsername = req.user.username;
+
+  const following = await Follow.find({
+    follower: myUsername,
+    status: "accept",
+  });
+
+  res.status(200).json({
+    message: `Following list.`,
+    following: following.map((item) => ({
+      usrename: item.followee,
+    })),
+  });
+};
+
+// who follow me
+const followersListController = async (req, res) => {
+  const myUsername = req.user.username;
+
+  const followers = await Follow.find({
+    followee: myUsername,
+    status: "accept",
+  });
+
+  res.status(200).json({
+    message: `Followers list.`,
+    following: followers.map((item) => ({
+      usrename: item.follower,
+    })),
+  });
+};
+
+module.exports = {
+  userFollowController,
+  userUnfollowController,
+  followAcceptController,
+  followRejectController,
+  followPendingListController,
+  followingListController,
+  followersListController,
+};
