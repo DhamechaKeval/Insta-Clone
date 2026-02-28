@@ -55,11 +55,11 @@ const Register = () => {
             name="password"
             placeholder="Set Password"
           />
-          <button>Register</button>
+          <button className="button register-button">Register</button>
         </form>
         <p>
           Alrady have an account?{" "}
-          <Link className="toggleAuthForm" to="/login">
+          <Link className="toggleAuthForm" to="/">
             Login
           </Link>
         </p>
