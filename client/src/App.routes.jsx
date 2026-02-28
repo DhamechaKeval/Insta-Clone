@@ -2,6 +2,11 @@ import { createBrowserRouter } from "react-router";
 import Login from "./features/auth/pages/Login";
 import Register from "./features/auth/pages/Register";
 import Feed from "./features/Post/pages/Feed";
+import Addpost from "./features/Post/pages/Addpost";
+import Profile from "./features/user/pages/Profile";
+import Followers from "./features/user/pages/Followers";
+import Following from "./features/user/pages/Following";
+import Request from "./features/user/pages/Request";
 
 // const Approutes = () => {
 //   return (
@@ -34,5 +39,26 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+
+  {
+    path: "/add-post",
+    element: <Addpost />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/profile/followers",
+    element: <Followers />,
+  },
+  {
+    path: "/profile/following",
+    element: <Following />,
+  },
+  {
+    path: "/profile/request",
+    element: <Request />,
   },
 ]);

@@ -1,0 +1,44 @@
+.followers-page,
+.request-page,
+.following-page {
+  .followers-list,
+  .request-list,
+  .following-list {
+    max-width: 350px;
+    width: 100%;
+    position: absolute;
+    top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0.5rem;
+      //border: 1px solid;
+
+      .user-details {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        img {
+          width: 3rem;
+          border-radius: 50%;
+        }
+      }
+      .button {
+        padding-inline: 1rem;
+        border-radius: 1rem;
+        padding-block: 0.2rem;
+
+        button {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

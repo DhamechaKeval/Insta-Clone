@@ -44,7 +44,7 @@ const Login = () => {
             name="password"
             placeholder="Set Password"
           />
-          <button className="button login-button">Login</button>
+          <button className="button primary-button">Login</button>
         </form>
         <p>
           Don't have an account?{" "}

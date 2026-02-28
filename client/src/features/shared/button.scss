@@ -6,15 +6,11 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 
-  &.login-button {
+  &.primary-button {
     background-color: red;
     color: white;
   }
 
-  &.register-button {
-    background-color: red;
-    color: white;
-  }
 
   &:active {
     scale: 0.95;

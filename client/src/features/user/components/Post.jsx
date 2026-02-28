@@ -1,37 +1,36 @@
 import React from "react";
 import {
   RiHeart3Line,
-  RiHeart3Fill,
   RiChatAi4Line,
   RiBookmarkLine,
   RiShareForwardLine,
 } from "@remixicon/react";
 
-const Post = ({ user, post, handleLike, handleDislike }) => {
+const Post = () => {
   return (
     <div className="post">
       <div className="top">
         <div className="profile-pic">
-          <img src={user.profileImage} alt="" />
+          <img
+            src="https://ik.imagekit.io/Kevaldhamecha/user-profile-icon-avatar.webp?updatedAt=1771944304092://via.placeholder.com/150"
+            alt="profile"
+          />
         </div>
-        <h3>{user.username}</h3>
+        <h3>username_here</h3>
       </div>
+
       <div className="image">
-        <img src={post.imgUrl} alt="" />
+        <img
+          src="https://ik.imagekit.io/Kevaldhamecha/Photo_5y5vULHTl.jpg?updatedAt=1771999398645"
+          alt="post"
+        />
       </div>
+
       <div className="bottom">
         <div className="icons">
           <div className="left-icons">
-            <button
-              onClick={() => {
-                post.isLiked ? handleDislike(post._id) : handleLike(post._id);
-              }}
-            >
-              {post.isLiked ? (
-                <RiHeart3Fill className={"like"} size={28} />
-              ) : (
-                <RiHeart3Line size={28} />
-              )}
+            <button>
+              <RiHeart3Line size={28} />
             </button>
             <button>
               <RiChatAi4Line size={28} />
@@ -40,15 +39,17 @@ const Post = ({ user, post, handleLike, handleDislike }) => {
               <RiShareForwardLine size={28} />
             </button>
           </div>
+
           <div className="right-icons">
             <button>
               <RiBookmarkLine size={28} />
             </button>
           </div>
         </div>
+
         <div className="caption">
-          <span className="caption-by">{user.username} </span>
-          {post.caption}{" "}
+          <span className="caption-by">username_here </span>
+          This is a sample caption for UI design.
         </div>
       </div>
     </div>
