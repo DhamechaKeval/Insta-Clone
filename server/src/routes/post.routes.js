@@ -3,6 +3,7 @@ const {
   createPostController,
   getAllPostController,
   getPostDetailsController,
+  getFeedController,
   likePostController,
   dislikePostController,
 } = require("../controllers/post.controller");
@@ -37,6 +38,13 @@ postRouter.get("/", identifyUser, getAllPostController);
  * @access  Private
  */
 postRouter.get("/details/:postId", identifyUser, getPostDetailsController);
+
+/**
+ * @route   GET /api/posts/feed
+ * @desc    to get all the post in feed
+ * @access  Private
+ */
+postRouter.get("/feed", identifyUser, getFeedController);
 
 /**
  * @route   POST /api/posts/like/:postId

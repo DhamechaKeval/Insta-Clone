@@ -65,6 +65,28 @@ const getPostDetailsController = async (req, res) => {
   });
 };
 
+const getFeedController = async (req, res) => {
+  const user = req.user.username;
+  const feed = await Promise.all(
+    (await Post.find().populate("user", "-password").lean()).map(
+      async (post) => {
+        const isLiked = await Like.findOne({
+          username: user,
+          postId: post._id,
+        });
+
+        post.isLiked = !!isLiked;
+        return post;
+      },
+    ),
+  );
+
+  res.status(200).json({
+    message: "Fetch all Post in the feed",
+    feed,
+  });
+};
+
 const likePostController = async (req, res) => {
   const username = req.user.username;
   const postId = req.params.postId;
@@ -134,6 +156,7 @@ module.exports = {
   createPostController,
   getAllPostController,
   getPostDetailsController,
+  getFeedController,
   likePostController,
   dislikePostController,
 };
